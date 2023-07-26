@@ -95,7 +95,108 @@ api.add_resource(Logout, "/logout", endpoint="logout")
 
 
 class KnitterById(Resource):
-    pass
+    def get(self, id):
+        knitter_by_id = Knitter.query.filter(Knitter.id == id).first()
+
+        response = make_response(knitter_by_id.to_dict(),200)
+
+        return response
+    
+api.add_resource(KnitterById, '/knitters/<int:id>')
+    
+
+class KnitterByAll(Resource):
+    def get(self):
+        knitter_list = [knitter.to_dict() for knitter in Knitter.query.all()]
+
+        response = make_response(knitter_list, 200)
+
+        return response
+
+api.add_resource(KnitterByAll, '/knitters')
+
+
+class EventsByAll(Resource):
+    def get(self):
+        event_list = [event.to_dict() for event in Event.query.all()]
+
+        response = make_response(event_list, 200)
+
+        return response
+
+api.add_resource(EventsByAll, '/events')
+
+
+class ProjectsById(Resource):
+    def get(self, id):
+        project_by_id = Project.query.filter(Project.id == id).first()
+
+        response = make_response(project_by_id.to_dict(),200)
+
+        return response
+    
+    def delete(self, id):
+        single_project = Project.query.filter(Project.id == id).first()
+
+        db.session.delete(single_project)
+        db.session.commit()
+
+        response = make_response({"Success": "Your project post has been deleted."}, 200)
+
+        return response
+    
+    def patch(self, id):
+
+        project_item = Project.query.filter(Project.id == id).first()
+
+        if not project_item:
+            abort(404, "The project could not be found")
+
+        request_json = request.get_json()
+
+        for key in request_json:
+            setattr(project_item, key, request_json[key])
+
+        db.session.add(project_item)
+
+        db.session.commit()
+
+        response = make_response(project_item.to_dict(), 200)
+
+        return response
+    
+api.add_resource(ProjectsById, '/projects/<int:id>')
+
+class ProjectsByAll(Resource):
+    def get(self):
+        project_list = [project.to_dict() for project in Project.query.all()]
+
+        response = make_response(project_list, 200)
+
+        return response
+    
+    def post(self):
+        try:
+            request_json = request.ret_json()
+
+            new_project = Project(
+                picture = request_json['picture'],
+                body = request_json['body'],
+                likes = request_json['likes']
+            )
+        
+            db.session.all(new_project)
+            db.session.commit()
+
+            response = make_response(new_project.to_dict(), 201)
+
+            return response
+    
+        except ValueError:
+            response = make_response("error occured", 400)
+            return response
+        
+api.add_resource(ProjectsByAll, '/projects')
 
 
 if __name__ == "__main__":
