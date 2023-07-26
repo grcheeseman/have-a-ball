@@ -167,6 +167,7 @@ class ProjectsById(Resource):
     
 api.add_resource(ProjectsById, '/projects/<int:id>')
 
+
 class ProjectsByAll(Resource):
     def get(self):
         project_list = [project.to_dict() for project in Project.query.all()]
@@ -176,25 +177,25 @@ class ProjectsByAll(Resource):
         return response
     
     def post(self):
-        try:
-            request_json = request.ret_json()
+        # try:
+        request_json = request.get_json()
 
-            new_project = Project(
-                picture = request_json['picture'],
-                body = request_json['body'],
-                likes = request_json['likes']
-            )
-        
-            db.session.all(new_project)
-            db.session.commit()
-
-            response = make_response(new_project.to_dict(), 201)
-
-            return response
+        new_project = Project(
+            picture = request_json['picture'],
+            body = request_json['body'],
+            likes = request_json['likes']
+        )
     
-        except ValueError:
-            response = make_response("error occured", 400)
-            return response
+        db.session.add(new_project)
+        db.session.commit()
+
+        response = make_response(jsonify(new_project.to_dict()), 201)
+
+        return response
+    
+        # except ValueError:
+        #     response = make_response("error occured", 400)
+        #     return response
         
 api.add_resource(ProjectsByAll, '/projects')
 
