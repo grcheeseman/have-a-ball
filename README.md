@@ -17,7 +17,8 @@
 
     Run front-end React:
 
-        Run at level above server:
+        cd client
+        npm install
         npm start --prefix client
 
     To pull from main after you've made changes on your branch:
