@@ -1,12 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { Routes, Route } from "react-router-dom"
+import KnittersPage from "./KnitterPage";
+import KnitterDetails from "./KnitterDetails";
 
 
 function App() {
 
-  const [knitter, setKnitter] = useState(null); // stores knitter on client-side
+  const [ knitters, setKnitters ] = useState([]); // stores knitter on client-side
+  const [ events, setEvents ] = useState([])
+  const [ eventDates, setEventDates ] = useState([])
+  const [ projects, setProjects ] = useState([])
 
-  console.log(knitter);
+  useEffect(() =>{
+    fetch("http://localhost:5555/knitters")
+    .then(resp => resp.json())
+    .then(knitters => setKnitters(knitters))
+  },[])
+
+  useEffect(() =>{
+    fetch("http://localhost:5555/projects")
+    .then(resp => resp.json())
+    .then(projects => setProjects(projects))
+  },[])
+
+  useEffect(() =>{
+    fetch("http://localhost:5555/events")
+    .then(resp => resp.json())
+    .then(events => setEvents(events))
+  },[])
+
+  useEffect(() =>{
+    fetch("http://localhost:5555/event_dates")
+    .then(resp => resp.json())
+    .then(eventDates => setEventDates(eventDates))
+  },[])
+
 
   // grabs current session from server-side and sets state
   function handleCheckSession() {

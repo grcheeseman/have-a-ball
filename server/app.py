@@ -1,176 +1,117 @@
+from http import HTTPStatus
+
+from config import api, app, db
 from flask import Flask, abort, jsonify, make_response, request, session
 from flask_migrate import Migrate
 from flask_restful import Resource
-from sqlalchemy.exc import IntegrityError
-
-from config import api, app, db
 from models import Event, EventDate, Knitter, KnitterEventDate, Project
+from sqlalchemy.exc import IntegrityError
 
 
 @app.route("/")
 def index():
     return "<h1>Hello backend World</h1>"
 
-# @app.route("/check_session", methods = ['GET'])
-# def check_session():
 
-    '''
-    1. Get current session (session.get('user_id'))
-    2. If user exists, return user; otherwise return 401 error.
-    '''
+# CHECK COMPLETE
+class ClearSession(Resource):
+    def delete(self):
+        session["page_views"] = None
+        session["knitter_id"] = None
 
-    # knitter_id = session.get('user_id')
-
-    # if knitter_id:
-
-    #     # user_row = User.query.filter(User.id == user_id).first()
-    #     knitter_row = Knitter.query.filter(Knitter.id == session['user_id']).first()
-
-    #     response = make_response(jsonify(knitter_row.to_dict()), 200)
-
-    # else:
-    #     response = make_response({}, 401)
-
-    # return response
-
-@app.route("/login", methods = ['POST'])
-def login():
-
-    '''
-    1. Fetch username from client-side
-    2. Use username to grab user from table
-    3. Use user to set session's user_id (session['user_id'])
-    4. Return successful or unsuccessful response
-    '''
-
-    username = request.get_json()['username']
-
-    knitter_row = Knitter.query.filter(Knitter.username == username).first()
-
-    if knitter_row:
-
-        session['user_id'] = knitter_row.id
-
-        response = make_response(
-            jsonify(knitter_row.to_dict()), 201
-        )
-
-    else:
-
-        response = make_response(
-            {}, 404
-        )
-
-    return response
-
-@app.route("/logout", methods = ['DELETE'])
-def logout():
-
-    '''
-    1. Nullify session's user_id (session['user_id'])
-    2. Return successful response
-    '''
-
-    session['user_id'] = None
-
-    response = make_response(
-        {},
-        204
-    )
-
-    return response
-# class Signup(Resource):
-#     def post(self):
-#         request_json = request.get_json()
-
-#         username = request_json.get("username")
-#         password = request_json.get("password")
-#         image_url = request_json.get("image_url")
-#         bio = request_json.get("bio")
-
-#         user = Knitter(username=username, image_url=image_url, bio=bio)
-
-#         user.password_hash = password
-
-#         print("first")
-
-#         try:
-#             print("here!")
-
-#             db.session.add(user)
-#             db.session.commit()
-
-#             session["user_id"] = user.id
-
-#             print(user.to_dict())
-
-#             return user.to_dict(), 201
-
-#         except IntegrityError:
-#             print("no, here!")
-
-#             return {"error": "422 Unprocessable Entity"}, 422
+        return {}, 204
 
 
-# api.add_resource(Signup, "/signup", endpoint="signup")
+api.add_resource(ClearSession, "/clear", endpoint="clear")
 
 
-# class AutoLogIn(Resource):
-#     def get(self):
-#         if session.get("user_id"):
-#             user = Knitter.query.filter(Knitter.id == session["user_id"]).first()
+# CHECK COMPLETE
+class Signup(Resource):
+    def post(self):
+        request_json = request.get_json()
+        username = request_json.get("username")
+        password = request_json["password"]
+        image_url = request_json["image_url"]
+        bio = request_json["bio"]
 
-#             return user.to_dict(), 200
+        new_knitter = Knitter(username=username, image_url=image_url, bio=bio)
+        new_knitter.password_hash = password
 
-#         return {"error": "401 Unauthorized"}, 401
+        try:
+            db.session.add(new_knitter)
+            db.session.commit()
+            session["knitter_id"] = new_knitter.id
 
+            return new_knitter.to_dict(), 201
 
-# api.add_resource(AutoLogIn, "/auto_log_in", endpoint="auto_log_in")
-
-
-# class Login(Resource):
-#     def post(self):
-#         request_json = request.get_json()
-
-#         username = request_json.get("username")
-#         password = request_json.get("password")
-
-#         user = Knitter.query.filter(Knitter.username == username).first()
-
-#         if user:
-#             if user.authenticate(password):
-#                 session["user_id"] = user.id
-#                 return user.to_dict(), 200
-
-#         return {"error": "401 Unauthorized"}, 401
+        except IntegrityError:
+            db.session.rollback()
+            return {"error": "Username already exists"}, 422
 
 
-# api.add_resource(Login, "/login", endpoint="login")
+api.add_resource(Signup, "/signup", endpoint="signup")
 
 
-# class Logout(Resource):
-#     def delete(self):
-#         if session.get("user_id"):
-#             session["user_id"] = None
+# CHECK COMPLETE
+class CheckSession(Resource):
+    def get(self):
+        if session.get("knitter_id"):
+            knit_user = Knitter.query.filter(
+                Knitter.id == session["knitter_id"]
+            ).first()
+            return knit_user.to_dict(), 200
 
-#             return {}, 204
-
-#         return {"error": "401 Unauthorized"}, 401
+        return {"error": "401 Unauthorized"}, HTTPStatus.UNAUTHORIZED
 
 
-# api.add_resource(Logout, "/logout", endpoint="logout")
+api.add_resource(CheckSession, "/check_session", endpoint="check_session")
+
+
+# CHECK COMPLETE
+class Login(Resource):
+    def post(self):
+        request_json = request.get_json()
+        username = request_json["username"]
+        knit_user = Knitter.query.filter(Knitter.username == username).first()
+        password = request_json["password"]
+
+        if knit_user and knit_user.authenticate(password):
+            session["knitter_id"] = knit_user.id
+            response = make_response(jsonify(knit_user.to_dict()), HTTPStatus.OK)
+        else:
+            response = make_response({}, HTTPStatus.UNAUTHORIZED)
+
+        return response
+
+
+api.add_resource(Login, "/login", endpoint="login")
+
+
+# CHECK COMPLETE
+class Logout(Resource):
+    def delete(self):
+        # if session.get("user_id"):
+            session["user_id"] = None
+
+            return {}, HTTPStatus.NO_CONTENT
+
+        # return {"error": "401 Unauthorized"}, HTTPStatus.UNAUTHORIZED
+
+
+api.add_resource(Logout, "/logout", endpoint="logout")
 
 
 class KnitterById(Resource):
     def get(self, id):
         knitter_by_id = Knitter.query.filter(Knitter.id == id).first()
 
-        response = make_response(knitter_by_id.to_dict(),200)
+        response = make_response(knitter_by_id.to_dict(), 200)
 
         return response
-    
-api.add_resource(KnitterById, '/knitters/<int:id>')
-    
+
+
+api.add_resource(KnitterById, "/knitters/<int:id>")
+
 
 class KnitterByAll(Resource):
     def get(self):
@@ -180,7 +121,8 @@ class KnitterByAll(Resource):
 
         return response
 
-api.add_resource(KnitterByAll, '/knitters')
+
+api.add_resource(KnitterByAll, "/knitters")
 
 
 class EventsByAll(Resource):
@@ -191,29 +133,31 @@ class EventsByAll(Resource):
 
         return response
 
-api.add_resource(EventsByAll, '/events')
+
+api.add_resource(EventsByAll, "/events")
 
 
 class ProjectsById(Resource):
     def get(self, id):
         project_by_id = Project.query.filter(Project.id == id).first()
 
-        response = make_response(project_by_id.to_dict(),200)
+        response = make_response(project_by_id.to_dict(), 200)
 
         return response
-    
+
     def delete(self, id):
         single_project = Project.query.filter(Project.id == id).first()
 
         db.session.delete(single_project)
         db.session.commit()
 
-        response = make_response({"Success": "Your project post has been deleted."}, 200)
+        response = make_response(
+            {"Success": "Your project post has been deleted."}, 200
+        )
 
         return response
-    
-    def patch(self, id):
 
+    def patch(self, id):
         project_item = Project.query.filter(Project.id == id).first()
 
         if not project_item:
@@ -231,8 +175,9 @@ class ProjectsById(Resource):
         response = make_response(project_item.to_dict(), 200)
 
         return response
-    
-api.add_resource(ProjectsById, '/projects/<int:id>')
+
+
+api.add_resource(ProjectsById, "/projects/<int:id>")
 
 
 class ProjectsByAll(Resource):
@@ -242,29 +187,30 @@ class ProjectsByAll(Resource):
         response = make_response(project_list, 200)
 
         return response
-    
+
     def post(self):
         # try:
         request_json = request.get_json()
 
         new_project = Project(
-            picture = request_json['picture'],
-            body = request_json['body'],
-            likes = request_json['likes']
+            picture=request_json["picture"],
+            body=request_json["body"],
+            likes=request_json["likes"],
         )
-    
+
         db.session.add(new_project)
         db.session.commit()
 
         response = make_response(jsonify(new_project.to_dict()), 201)
 
         return response
-    
+
         # except ValueError:
         #     response = make_response("error occured", 400)
         #     return response
-        
-api.add_resource(ProjectsByAll, '/projects')
+
+
+api.add_resource(ProjectsByAll, "/projects")
 
 
 if __name__ == "__main__":
