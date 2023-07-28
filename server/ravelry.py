@@ -1,10 +1,9 @@
 import random
 
 import requests
-from requests.auth import HTTPBasicAuth
-
 from models import Knitter, Project
 from my_secrets import RAVELRY_API_PASSWORD, RAVELRY_API_USERNAME
+from requests.auth import HTTPBasicAuth
 
 API_URL = "https://api.ravelry.com"
 AUTH = HTTPBasicAuth(RAVELRY_API_USERNAME, RAVELRY_API_PASSWORD)

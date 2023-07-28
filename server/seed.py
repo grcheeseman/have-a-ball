@@ -1,7 +1,6 @@
-from faker import Faker
-
 from app import app
 from config import db
+from faker import Faker
 from models import Event, EventDate, Knitter, KnitterEventDate, Project
 from ravelry import load_projects_and_knitters
 
@@ -18,6 +17,10 @@ if __name__ == "__main__":
 
         # load from ravelry API
         projects, knitters = load_projects_and_knitters()
+
+        # add passwords (for now all the same)
+        for knitter in knitters:
+            knitter.password_hash = "test1"
 
         # seed knitters and projects
         db.session.add_all(knitters)
