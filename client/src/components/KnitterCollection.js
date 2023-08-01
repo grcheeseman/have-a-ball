@@ -3,7 +3,7 @@ import KnitterCard from "./KnitterCard"
 function KnitterCollection({ knitters, searchTerm }){
         
     const filteredKnitters = knitters.filter((knitter) => {
-        return knitter.name.toLowerCase().includes(searchTerm.toLowerCase())
+        return knitter.username.toLowerCase().includes(searchTerm.toLowerCase())
     })
    
     const renderKnittersToCards = filteredKnitters.map((knitter)=>

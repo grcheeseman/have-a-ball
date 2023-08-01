@@ -17,9 +17,9 @@
 
     Run front-end React:
 
-        cd client
-        npm install
-        npm start --prefix client
+        - cd client
+        - npm install
+        - npm start
 
     To pull from main after you've made changes on your branch:
         

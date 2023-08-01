@@ -1,50 +1,42 @@
 import React, { useState, useEffect } from "react";
-// import { Routes, Route } from "react-router-dom"
+import { Routes, Route } from "react-router-dom";
 import KnittersPage from "./KnitterPage";
 import KnitterDetails from "./KnitterDetails";
+import HomePage from "./HomePage";
 
 
 function App() {
-
-  const [ knitters, setKnitters ] = useState([]); // stores knitter on client-side
+  const [ user, setUser ] = useState(null)
+  const [ knitters, setKnitters ] = useState([])
   const [ events, setEvents ] = useState([])
-  const [ eventDates, setEventDates ] = useState([])
   const [ projects, setProjects ] = useState([])
 
   useEffect(() =>{
-    fetch("http://localhost:5555/knitters")
+    fetch("/check_session")
+    .then(resp => {
+      if (resp.ok) {
+        resp.json().then((knitter) => setUser(knitter));
+      }
+    })
+  },[])
+
+  useEffect(() =>{
+    fetch("/knitters")
     .then(resp => resp.json())
     .then(knitters => setKnitters(knitters))
   },[])
 
   useEffect(() =>{
-    fetch("http://localhost:5555/projects")
+    fetch("/projects")
     .then(resp => resp.json())
     .then(projects => setProjects(projects))
   },[])
 
   useEffect(() =>{
-    fetch("http://localhost:5555/events")
+    fetch("/events")
     .then(resp => resp.json())
     .then(events => setEvents(events))
   },[])
-
-  useEffect(() =>{
-    fetch("http://localhost:5555/event_dates")
-    .then(resp => resp.json())
-    .then(eventDates => setEventDates(eventDates))
-  },[])
-
-
-  // grabs current session from server-side and sets state
-  function handleCheckSession() {
-      fetch("http://localhost:5555/check_session")
-      .then((resp) => {
-        if (resp.ok) {
-          resp.json().then((knitter) => setKnitter(knitter));
-        }
-      });
-  }
 
   // sends information to server-side, sets session, and sets state
   function handleLogin(e) {
@@ -53,7 +45,7 @@ function App() {
       let username = e.target.username.value;
       let password = e.target.password.value;
 
-      fetch("http://localhost:5555/login", {
+      fetch("/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -61,40 +53,57 @@ function App() {
           body: JSON.stringify( { username, password } ),
         }).then((resp) => {
           if (resp.ok) {
-            resp.json().then((knitter) => setKnitter(knitter));
+            resp.json().then((knitter) => setUser(knitter));
           }
         });
   }
 
   // removes session, removes state
   function handleLogout() {
-      fetch("http://localhost:5555/logout", {
+      fetch("/logout", {
           method: "DELETE"
-      }).then(setKnitter(null))
+      }).then(setUser(null))
   }
+
+  // show loginForm only if user is null
+  let loginForm = (user === null) ? (
+    <>
+    <h1>Login Form</h1>
+    <form onSubmit = {handleLogin}>
+      <label htmlFor="username">Username: </label>
+      <input id = "username" type = "text" />
+      <label htmlFor="password">Password: </label>
+      <input id = "password" type = "password" />
+      <button className = "border-2 p-2" type = "submit">Login</button>
+    </form>
+    </>
+  ) : null;
+
+  // show logoutForm only if user is not null
+  let logoutForm = (user !== null) ? (
+    <>
+    <h1>Logout Form</h1>
+    <button className = "border-2 p-2" onClick = {handleLogout}>Logout</button>
+    </>
+  ) : null;
 
   return (
     <>
-    {/* <Routes>
-    </Routes> */}
-      <h1>Login Form</h1>
-      <form onSubmit = {handleLogin}>
-        <label htmlFor="username">Username: </label>
-        <input id = "username" type = "text" />
-        <label htmlFor="password">Password: </label>
-        <input id = "password" type = "password" />
-        <button className = "border-2 p-2" type = "submit">Login</button>
-      </form>
+    <Routes>
+      <Route path = '/' element = {<HomePage />} />
+      <Route path = '/knitters' element = {<KnittersPage knitteres={knitters}/> }/>
+      <Route path = '/detail/:knitterId' element = {<KnitterDetails />} />
+    </Routes>
 
-      <h1>Logout Form</h1>
-      <button className = "border-2 p-2" onClick = {handleLogout}>Logout</button>
+      {loginForm}
+      {logoutForm}
 
       {/* <h1>create form</h1>
       <button className = "border-2 p-2" onClick = {handleCreate}>Create Account</button> */}
 
       <br />
 
-      <button className = "border-2 p-2" onClick = {handleCheckSession}>Check Session</button>
+      {/* <button className = "border-2 p-2" onClick = {handleCheckSession}>Check Session</button> */}
 </>
     // <div className="App text-2xl">
     //   <p>hello beautiful world</p>

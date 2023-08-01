@@ -8,23 +8,6 @@ from models import Event, EventDate, Knitter, KnitterEventDate, Project
 from sqlalchemy.exc import IntegrityError
 
 
-@app.route("/")
-def index():
-    return "<h1>Hello backend World</h1>"
-
-
-# CHECK COMPLETE
-class ClearSession(Resource):
-    def delete(self):
-        session["page_views"] = None
-        session["knitter_id"] = None
-
-        return {}, 204
-
-
-api.add_resource(ClearSession, "/clear", endpoint="clear")
-
-
 # CHECK COMPLETE
 class Signup(Resource):
     def post(self):
@@ -90,13 +73,8 @@ api.add_resource(Login, "/login", endpoint="login")
 # CHECK COMPLETE
 class Logout(Resource):
     def delete(self):
-        # if session.get("user_id"):
-            session["user_id"] = None
-
-            return {}, HTTPStatus.NO_CONTENT
-
-        # return {"error": "401 Unauthorized"}, HTTPStatus.UNAUTHORIZED
-
+        session.clear()
+        return {}, HTTPStatus.NO_CONTENT
 
 api.add_resource(Logout, "/logout", endpoint="logout")
 
