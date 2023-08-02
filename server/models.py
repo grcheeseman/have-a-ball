@@ -12,6 +12,7 @@ class Project(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     picture = db.Column(db.String)
     body = db.Column(db.String)
+    pattern_name = db.Column(db.String)
     likes = db.Column(db.Integer)
 
     knitter_id = db.Column(db.Integer, db.ForeignKey("knitters.id"))

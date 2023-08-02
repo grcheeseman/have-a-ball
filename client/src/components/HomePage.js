@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 function HomePage(){
@@ -15,7 +15,7 @@ function HomePage(){
                 <p className = "text-xl m-5">events in their neighborhoods. </p>
                 <p className = "text-xl m-5">Sign in to access your profile, post project updates, browse nearby events and more!</p>
                 <p className = "text-xl m-5"></p>
-                {/* <Link to='/products'><button className = "text-xl bg-blue-100/75 rounded-lg w-36 h-12 py-2 m-5">Start Shopping</button></Link> */}
+                <Link to='/login'><button className = "text-xl bg-blue-100/75 rounded-lg w-36 h-12 py-2 m-5">Log In Here!</button></Link>
             </div>
         </div>
     )
