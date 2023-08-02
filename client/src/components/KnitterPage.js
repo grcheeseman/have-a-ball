@@ -2,7 +2,7 @@ import React from 'react';
 import KnitterCollection from './KnitterCollection';
 import { useState } from "react";
 import Search from './Search';
-import NavBar from './NavBar';
+import NavBar from './Navbar';
 
 function KnittersPage({ knitters }){
    
@@ -16,7 +16,7 @@ function KnittersPage({ knitters }){
    
     return (
         <>
-            <NavBar/>
+            {/* <NavBar/> */}
             <div className="flex justify-center "><Search handleSearch={handleSearch} /></div>
             <div className='flex justify-center product-page'>
                 <div className='max-w-4xl p-10'><KnitterCollection knitters={knitters} searchTerm={searchTerm} /></div>

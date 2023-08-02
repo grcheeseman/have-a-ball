@@ -6,9 +6,10 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.secret_key = "ABC123"
+app.secret_key = b'ecPy\xa1\x11\xe1\xe9\xc5\x93\xee12\x89m$'
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 app.json.compact = False
 
 db = SQLAlchemy()
@@ -20,4 +21,4 @@ bcrypt = Bcrypt(app)
 
 api = Api(app)
 
-CORS(app)
+CORS(app, supports_credentials=True)
