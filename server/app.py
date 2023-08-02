@@ -174,6 +174,7 @@ class ProjectsByAll(Resource):
             picture=request_json["picture"],
             body=request_json["body"],
             likes=request_json["likes"],
+            pattern_name=request_json["pattern_name,"]
         )
 
         db.session.add(new_project)

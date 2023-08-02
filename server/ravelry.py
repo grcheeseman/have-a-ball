@@ -16,6 +16,11 @@ BIOS = [
     "Look at my neat sweater",
 ]
 
+BODY = [
+    "I made this art",
+    "I like knitting so much that I finished this project"
+]
+
 
 def load_projects_and_knitters():
     """
@@ -25,7 +30,7 @@ def load_projects_and_knitters():
 
     params = {
         "page_size": 25,
-        "sort": "best",
+        # "sort": "best",
     }
 
     response = requests.get(API_URL + "/projects/search.json", params=params, auth=AUTH)
@@ -42,7 +47,7 @@ def load_projects_and_knitters():
             user = p["user"]
             knitter = Knitter(
                 username=user["username"],
-                picture=user["small_photo_url"],
+                picture=user["photo_url"],
                 bio=random.choice(BIOS),
             )
             knitters[ravelry_user_id] = knitter
@@ -54,10 +59,11 @@ def load_projects_and_knitters():
 
         # create project
         project = Project(
-            picture=p["first_photo"]["small_url"],
-            body=p["name"],
+            picture=p["first_photo"]["medium2_url"],
+            body=random.choice(BODY),
             likes=p["favorites_count"],
             knitter=knitter,
+            pattern_name=p["name"]
         )
         projects.append(project)
 

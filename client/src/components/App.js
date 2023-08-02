@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import KnittersPage from "./KnitterPage";
 import KnitterDetails from "./KnitterDetails";
+import ProjectsPage from "./ProjectPage";
+import ProjectDetails from "./ProjectDetails";
 import HomePage from "./HomePage";
-
+import Login from "./Login";
+import Logout from "./Logout";
+import Navbar from "./Navbar";
+// import { UserProvider } from "../context/User";
 
 function App() {
   const [ user, setUser ] = useState(null)
@@ -87,27 +92,27 @@ function App() {
     </>
   ) : null;
 
+
   return (
     <>
+    <Navbar />
     <Routes>
       <Route path = '/' element = {<HomePage />} />
-      <Route path = '/knitters' element = {<KnittersPage knitteres={knitters}/> }/>
-      <Route path = '/detail/:knitterId' element = {<KnitterDetails />} />
+      <Route path = '/knitters' element = {<KnittersPage knitters={knitters}/> }/>
+      <Route path = '/knitters/:knitterId' element = {<KnitterDetails />} />
+      <Route path = '/projects' element = {<ProjectsPage projects={projects}/> }/>
+      <Route path = '/projects/:projectId' element = {<ProjectDetails />} />
+      {/* <Route path = '/login' element = {<Login />} />
+      <Route path = '/logout' element = {<Logout />} /> */}
     </Routes>
+    {/* <UserProvider>
+      <Login user={user} setUser={setUser} />
+      <Logout user={user} setUser={setUser} />
+    </UserProvider> */}
 
       {loginForm}
       {logoutForm}
-
-      {/* <h1>create form</h1>
-      <button className = "border-2 p-2" onClick = {handleCreate}>Create Account</button> */}
-
-      <br />
-
-      {/* <button className = "border-2 p-2" onClick = {handleCheckSession}>Check Session</button> */}
 </>
-    // <div className="App text-2xl">
-    //   <p>hello beautiful world</p>
-    // </div>
   );
 }
 
