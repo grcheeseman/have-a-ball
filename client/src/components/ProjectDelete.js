@@ -1,19 +1,26 @@
-// import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-// function ProjectDelete() {
+function ProjectDelete({ projectId }) {
+  const params = useParams();
 
-//     function handleDelete() {
-//         fetch("/projects/:projectId", {
-//             method: "DELETE"
-//         }).then(setUser(null))
-//     }
-    
-//       return (
-//         <>
-//         <button id={id} className="mr-2 p-2 rounded text-white bg-slate-500" onClick = {() => handleDelete(id)}>Delete Project</button>
-//         <Link to="/login">Login Instead</Link>
-//         </>
-//       )
-// }
+  function handleDelete() {
+    fetch(`/api/projects/${projectId}`, {
+      method: "DELETE",
+    });
+  }
 
-// export default Logout;
+  return (
+    <>
+      <Link to="/projects">
+        <button
+          className="mr-2 p-2 rounded text-white bg-slate-500"
+          onClick={() => handleDelete()}
+        >
+          Delete Project
+        </button>
+      </Link>
+    </>
+  );
+}
+
+export default ProjectDelete;
