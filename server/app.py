@@ -83,7 +83,7 @@ class KnitterById(Resource):
     def get(self, id):
         knitter_by_id = Knitter.query.filter(Knitter.id == id).first()
 
-        response = make_response(knitter_by_id.to_dict(), 200)
+        response = make_response(knitter_by_id.to_dict(), HTTPStatus.OK)
 
         return response
 
@@ -117,23 +117,23 @@ api.add_resource(EventsByAll, "/events")
 
 class ProjectsById(Resource):
     def get(self, id):
-        project_by_id = Project.query.filter(Project.id == id).first()
+        project = Project.query.filter(Project.id == id).first()
+        if project is None:
+            return {"error": "No project exists with id"}, HTTPStatus.NOT_FOUND
 
-        response = make_response(project_by_id.to_dict(), 200)
-
-        return response
+        return make_response(project.to_dict(), HTTPStatus.OK)
 
     def delete(self, id):
-        single_project = Project.query.filter(Project.id == id).first()
+        project = Project.query.filter(Project.id == id).first()
+        if project is None:
+            return {"error": "No project exists with id"}, HTTPStatus.NOT_FOUND
 
-        db.session.delete(single_project)
-        db.session.commit()
+        if session.get("knitter_id") == project.knitter_id:
+            db.session.delete(project)
+            db.session.commit()
+            return {"Success": "Your project post has been deleted."}, HTTPStatus.OK
 
-        response = make_response(
-            {"Success": "Your project post has been deleted."}, 200
-        )
-
-        return response
+        return {"error": "401 Unauthorized"}, HTTPStatus.UNAUTHORIZED
 
     def patch(self, id):
         project_item = Project.query.filter(Project.id == id).first()
