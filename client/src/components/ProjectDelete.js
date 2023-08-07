@@ -1,26 +1,42 @@
-import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Modal from "react-modal";
 
-function ProjectDelete({ projectId }) {
-  const params = useParams();
+function ProjectDelete({ projectId, afterDelete }) {
+  const [showModal, setShowModal] = useState(false);
 
   function handleDelete() {
     fetch(`/api/projects/${projectId}`, {
       method: "DELETE",
     });
+    closeModal();
+    afterDelete();
+  }
+
+  function closeModal() {
+    setShowModal(false);
   }
 
   return (
     <>
-      <Link to="/projects">
-        <button
-          className="mr-2 p-2 rounded text-white bg-slate-500"
-          onClick={() => handleDelete()}
-        >
-          Delete Project
-        </button>
-      </Link>
+      <div
+        className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3"
+        onClick={() => setShowModal(true)}
+      >
+        <img src="/images/delete.svg" />
+        <p>Delete</p>
+      </div>
+      <Modal isOpen={showModal} onRequestClose={closeModal}>
+        <p>Are you sure you want to delete this project?</p>
+        <button onClick={handleDelete}>Yes</button>
+        <button onClick={closeModal}>No</button>
+      </Modal>
     </>
   );
 }
+
+ProjectDelete.defaultProps = {
+  afterDelete: () => {},
+};
 
 export default ProjectDelete;

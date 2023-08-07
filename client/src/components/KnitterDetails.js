@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Dashboard from "./Dashboard";
+import KnitterAdd from "./KnitterAdd";
 
 function KnitterDetails() {
   const params = useParams();
@@ -13,9 +14,14 @@ function KnitterDetails() {
       .then((knitter) => setKnitter(knitter));
   }, [params.knitterId]);
 
+  const addKnitter = (knitter) => {
+    setKnitter(knitters => [...knitters,knitter])
+}
+
   return (
     <>
     <div>
+      <KnitterAdd addKnitter={addKnitter}/>
       <div className="flex justify-center">
         <div className="max-w-3xl rounded overflow-hidden shadow-lg bg-blue-200/50 m-6 center ">
           <div className="flex">

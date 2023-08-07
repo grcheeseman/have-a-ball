@@ -76,6 +76,7 @@ class Logout(Resource):
         session.clear()
         return {}, HTTPStatus.NO_CONTENT
 
+
 api.add_resource(Logout, "/logout", endpoint="logout")
 
 
@@ -160,7 +161,13 @@ api.add_resource(ProjectsById, "/projects/<int:id>")
 
 class ProjectsByAll(Resource):
     def get(self):
-        project_list = [project.to_dict() for project in Project.query.all()]
+        knitter_id = request.args.get("knitter_id", type=int)
+        if knitter_id is not None:
+            projects = Project.query.where(Project.knitter_id == knitter_id)
+        else:
+            projects = Project.query.all()
+
+        project_list = [project.to_dict() for project in projects]
 
         response = make_response(project_list, 200)
 
@@ -174,7 +181,7 @@ class ProjectsByAll(Resource):
             picture=request_json["picture"],
             body=request_json["body"],
             likes=request_json["likes"],
-            pattern_name=request_json["pattern_name,"]
+            pattern_name=request_json["pattern_name,"],
         )
 
         db.session.add(new_project)
