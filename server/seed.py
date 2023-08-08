@@ -4,6 +4,9 @@ from faker import Faker
 from models import Event, EventDate, Knitter, KnitterEventDate, Project
 from ravelry import load_projects_and_knitters
 
+import random
+from datetime import date, timedelta
+
 fake = Faker()
 
 if __name__ == "__main__":
@@ -30,28 +33,30 @@ if __name__ == "__main__":
         # Seed Events
         events = [
             Event(
-                picture="ONE event image",
-                bio="ONE event description",
+                picture="https://knitwithattitude.com/media/wysiwyg/surgery-workshop-kwa.jpg",
+                name="Fiber Arts Workshop",
+                bio="Do you knit, crochet, quilt, cross stitch or embroider? Join us for a crafting circle to work on your latest project while drinking wine! Invite all your crafty friends.",
             ),
             Event(
-                picture="TWO event image",
-                bio="TWO event description",
+                picture="https://www.jimmybeanswool.com/secure-html/productImages/10094Large_5289.jpg",
+                name="Crafty Crafty Hippo",
+                bio="Everyone who comes out will be able to help create an interactive knit piece, a kind of wearable guest book.",
             ),
             Event(
-                picture="THREE event image",
-                bio="THREE event description",
+                picture="https://s3fs.paintnite.com/fresca-web-html/paintnite/public-events-experiences/assets/images/chunky-knit.png",
+                name="Sip and Knit",
+                bio="One free drink, knitting supplies, and a lesson on how to knit included!",
             ),
         ]
 
         db.session.add_all(events)
         db.session.commit()
 
-        # Seed EventDate
-        eventdates = [
-            EventDate(
-                date="August 22, 2023",
-            )
-        ]
+        eventdates = []
+        for i in range(10):
+            # pick a random date within a year of today
+            random_date = date.today() + timedelta(days=random.randint(-365, 365))
+            eventdates.append(EventDate(date=random_date, event=random.choice(events)))
 
         db.session.add_all(eventdates)
         db.session.commit()

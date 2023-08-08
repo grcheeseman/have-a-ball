@@ -16,10 +16,7 @@ BIOS = [
     "Look at my neat sweater",
 ]
 
-BODY = [
-    "I made this art",
-    "I like knitting so much that I finished this project"
-]
+BODY = ["I made this art", "I like knitting so much that I finished this project"]
 
 
 def load_projects_and_knitters():
@@ -63,7 +60,7 @@ def load_projects_and_knitters():
             body=random.choice(BODY),
             likes=p["favorites_count"],
             knitter=knitter,
-            pattern_name=p["name"]
+            pattern_name=p["name"],
         )
         projects.append(project)
 

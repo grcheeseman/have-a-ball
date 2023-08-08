@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login({ user, setUser }) {
+  const navigate = useNavigate();
   function handleLogin(e) {
     e.preventDefault();
 
@@ -15,7 +17,10 @@ function Login({ user, setUser }) {
       body: JSON.stringify({ username, password }),
     }).then((resp) => {
       if (resp.ok) {
-        resp.json().then((knitter) => setUser(knitter));
+        resp.json().then((knitter) => {
+          setUser(knitter);
+          navigate("/dashboard");
+        });
       }
     });
   }
@@ -36,8 +41,8 @@ function Login({ user, setUser }) {
       </>
     ) : (
       <>
-        <div>"You are already logged in!"</div>
-        <Link to="/logout">Logout Instead</Link>
+        <p>You are already logged in!</p>
+        <Link to="/logout">Logout here</Link>
       </>
     );
 
