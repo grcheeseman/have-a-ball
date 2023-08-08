@@ -82,6 +82,7 @@ class Event(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     picture = db.Column(db.String)
     bio = db.Column(db.String)
+    name = db.Column(db.String)
 
     # Relationships
     event_dates = db.relationship("EventDate", backref="event")

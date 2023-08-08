@@ -31,6 +31,9 @@ function Navbar({ user }) {
           <li className="text-l m-2 py-2 pl-3 pr-4 text-black">
             <NavLink to="/projects">Browse Projects</NavLink>
           </li>
+          <li className="text-l m-2 py-2 pl-3 pr-4 text-black">
+            <NavLink to="/events">Browse Events</NavLink>
+          </li>
           {login}
           {logout}
         </ul>

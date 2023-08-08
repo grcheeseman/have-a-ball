@@ -17,7 +17,10 @@ function Login({ user, setUser }) {
       body: JSON.stringify({ username, password }),
     }).then((resp) => {
       if (resp.ok) {
-        resp.json().then((knitter) => setUser(knitter));
+        resp.json().then((knitter) => {
+          setUser(knitter);
+          navigate("/dashboard");
+        });
       }
     });
   }
@@ -38,8 +41,8 @@ function Login({ user, setUser }) {
       </>
     ) : (
       <>
-
-        navigate("/dashboard");
+        <p>You are already logged in!</p>
+        <Link to="/logout">Logout here</Link>
       </>
     );
 

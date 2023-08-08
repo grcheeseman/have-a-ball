@@ -116,6 +116,18 @@ class EventsByAll(Resource):
 api.add_resource(EventsByAll, "/events")
 
 
+class EventsById(Resource):
+    def get(self, id):
+        event = Event.query.filter(Event.id == id).first()
+        if event is None:
+            return {"error": "No event exists with id"}, HTTPStatus.NOT_FOUND
+
+        return make_response(event.to_dict(), HTTPStatus.OK)
+
+
+api.add_resource(EventsById, "/events/<int:id>")
+
+
 class ProjectsById(Resource):
     def get(self, id):
         project = Project.query.filter(Project.id == id).first()

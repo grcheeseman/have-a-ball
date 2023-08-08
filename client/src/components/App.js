@@ -13,6 +13,8 @@ import Dashboard from "./Dashboard";
 import ProjectAddForm from "./ProjectAddForm";
 import ProjectEdit from "./ProjectEdit";
 import Modal from "react-modal";
+import EventDetails from "./EventDetails";
+import EventsPage from "./EventsPage";
 
 Modal.setAppElement("#root");
 
@@ -83,6 +85,8 @@ function App() {
               />
             }
           />
+          <Route path="/events/:eventId" element={<EventDetails />} />
+          <Route path="/events" element={<EventsPage />} />
         </Routes>
       </UserProvider>
     </>
