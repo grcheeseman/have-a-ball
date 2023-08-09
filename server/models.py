@@ -1,5 +1,6 @@
 from config import bcrypt, db
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
@@ -62,6 +63,11 @@ class Knitter(db.Model, SerializerMixin):
 # KnitterEventDate model
 class KnitterEventDate(db.Model, SerializerMixin):
     __tablename__ = "knitter_event_dates"
+    __table_args__ = (
+        UniqueConstraint(
+            "knitter_id", "event_date_id", name="knitter_event_date_unique"
+        ),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -103,7 +109,8 @@ class EventDate(db.Model, SerializerMixin):
     # Relationships
     knitter_event_dates = db.relationship("KnitterEventDate", backref="event_date")
 
-    # Serialization rules
+    # Serialization stuff
+    attending = False  # not saved in database
     serialize_rules = (
         "-knitter_event_dates.event_date",
         "-event.event_dates",

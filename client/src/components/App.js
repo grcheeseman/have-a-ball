@@ -85,7 +85,10 @@ function App() {
               />
             }
           />
-          <Route path="/events/:eventId" element={<EventDetails />} />
+          <Route
+            path="/events/:eventId"
+            element={<EventDetails user={user} />}
+          />
           <Route path="/events" element={<EventsPage />} />
         </Routes>
       </UserProvider>

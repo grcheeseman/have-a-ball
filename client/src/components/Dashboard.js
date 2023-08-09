@@ -145,6 +145,26 @@ function Dashboard({
                   </div>
                 </div>
               </div>
+              {/* Events Info
+                  ------------------------------*/}
+              <div>
+                {user &&
+                user.knitter_event_dates &&
+                user.knitter_event_dates.length === 0 ? (
+                  <div>You are not attending any events.</div>
+                ) : (
+                  user.knitter_event_dates.map((knitterEventDate) => {
+                    const eventDate = knitterEventDate.event_date;
+                    const event = eventDate.event;
+                    return (
+                      <li key={eventDate.id}>
+                        <p>{eventDate.date}</p>
+                        <p>{event.name}</p>
+                      </li>
+                    );
+                  })
+                )}
+              </div>
             </div>
           </div>
         </div>

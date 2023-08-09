@@ -8,7 +8,6 @@ from models import Event, EventDate, Knitter, KnitterEventDate, Project
 from sqlalchemy.exc import IntegrityError
 
 
-# CHECK COMPLETE
 class Signup(Resource):
     def post(self):
         request_json = request.get_json()
@@ -35,7 +34,6 @@ class Signup(Resource):
 api.add_resource(Signup, "/signup", endpoint="signup")
 
 
-# CHECK COMPLETE
 class CheckSession(Resource):
     def get(self):
         if session.get("knitter_id"):
@@ -50,7 +48,6 @@ class CheckSession(Resource):
 api.add_resource(CheckSession, "/check_session", endpoint="check_session")
 
 
-# CHECK COMPLETE
 class Login(Resource):
     def post(self):
         request_json = request.get_json()
@@ -70,7 +67,6 @@ class Login(Resource):
 api.add_resource(Login, "/login", endpoint="login")
 
 
-# CHECK COMPLETE
 class Logout(Resource):
     def delete(self):
         session.clear()
@@ -104,9 +100,41 @@ class KnitterByAll(Resource):
 api.add_resource(KnitterByAll, "/knitters")
 
 
+class KnitterAddToEvent(Resource):
+    def post(self, knitter_id, event_date_id):
+        # user can only add event date for themself
+        if session.get("knitter_id") != knitter_id:
+            return {"error": "401 Unauthorized"}, HTTPStatus.UNAUTHORIZED
+
+        try:
+            # create new many-to-many relationship
+            knitter_event_date = KnitterEventDate(
+                knitter_id=knitter_id, event_date_id=event_date_id
+            )
+            db.session.add(knitter_event_date)
+            db.session.commit()
+            return {"success": "event date added to knitter"}, HTTPStatus.OK
+        except IntegrityError:
+            # unique key constraint failed, but this is ok it just means the knitter is already attending the event
+            return {"success": "already attending"}, HTTPStatus.OK
+
+
+api.add_resource(
+    KnitterAddToEvent, "/knitters/<int:knitter_id>/add_event_date/<int:event_date_id>"
+)
+
+
 class EventsByAll(Resource):
     def get(self):
-        event_list = [event.to_dict() for event in Event.query.all()]
+        event_list = [
+            event.to_dict(
+                rules=(
+                    "-event_dates.event_id",
+                    "-event_dates.knitter_event_dates",
+                )
+            )
+            for event in Event.query.all()
+        ]
 
         response = make_response(event_list, 200)
 
@@ -122,7 +150,26 @@ class EventsById(Resource):
         if event is None:
             return {"error": "No event exists with id"}, HTTPStatus.NOT_FOUND
 
-        return make_response(event.to_dict(), HTTPStatus.OK)
+        # if user is logged in, set attending field on event dates
+        if "knitter_id" in session:
+            for event_date in event.event_dates:
+                # check each many-to-many relationship and set attending if we see logged in knitter's id
+                for knitter_event_date in event_date.knitter_event_dates:
+                    if knitter_event_date.knitter_id == session["knitter_id"]:
+                        event_date.attending = True
+                        # don't need to keep checking, we already found it
+                        break
+
+        return make_response(
+            event.to_dict(
+                rules=(
+                    "event_dates.attending",
+                    "-event_dates.event_id",
+                    "-event_dates.knitter_event_dates",
+                )
+            ),
+            HTTPStatus.OK,
+        )
 
 
 api.add_resource(EventsById, "/events/<int:id>")
@@ -179,7 +226,10 @@ class ProjectsByAll(Resource):
         else:
             projects = Project.query.all()
 
-        project_list = [project.to_dict() for project in projects]
+        project_list = [
+            project.to_dict(rules=("-knitter.knitter_event_dates",))
+            for project in projects
+        ]
 
         response = make_response(project_list, 200)
 

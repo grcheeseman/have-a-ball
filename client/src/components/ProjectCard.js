@@ -4,18 +4,18 @@ function ProjectCard({ likes, picture, body, id, pattern_name }) {
   return (
     <div>
       <a href={`/projects/${id}`}>
-        <div className="w-80 rounded overflow-hidden shadow-lg auto-cols-auto bg-blue-200/50 m-6 ">
+        <div className="w-80 rounded overflow-hidden shadow-xl auto-cols-auto bg-yellow-50/75 m-6 ">
           <div className="container h-52 flex items-center overflow-hidden">
             <div className="">
               <img className="" src={picture} alt={pattern_name} />
             </div>
           </div>
           <div className="p-4">
-            <p className="text-gray-700 text-base">
-              project name : {pattern_name}
-            </p>
-            <div className="font-bold text-xl mb-2">{likes}</div>
-            <p className="text-gray-700 text-base">picture caption : {body}</p>
+            <b><p className="text-gray-700 text-base">
+             {pattern_name}
+            </p></b>
+            <div className=" text-m mb-2">Likes: {likes}</div>
+            <p className="text-gray-700 text-base">{body}</p>
           </div>
         </div>
       </a>
