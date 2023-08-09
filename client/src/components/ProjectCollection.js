@@ -15,14 +15,13 @@ function ProjectCollection({ projects, searchTerm }) {
       body={project.body}
       likes={project.likes}
       pattern_name={project.pattern_name}
+      knitter={project.knitter.username}
     />
-    
   ));
 
   return (
     <>
       <ul className="cards flex flex-wrap">{renderProjectsToCards}</ul>
-
     </>
   );
 }
