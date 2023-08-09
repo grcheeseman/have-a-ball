@@ -27,7 +27,7 @@ function EventDetails({ user }) {
     let eventDateAction = null;
     if (user !== null) {
       eventDateAction = eventDate.attending ? (
-        <p>Attending</p>
+        <p>✔️ You're now attending the event!</p>
       ) : (
         <KnitterAddEvent
           knitterId={user.id}
@@ -38,12 +38,12 @@ function EventDetails({ user }) {
       );
     }
     return (
-      <li key={eventDate.id}>
+      <ul key={eventDate.id}>
         <div>
           {eventDate.date}
           {eventDateAction}
         </div>
-      </li>
+      </ul>
     );
   });
 
@@ -51,10 +51,10 @@ function EventDetails({ user }) {
     <>
       <div>
         <div className="flex justify-center">
-          <div className="max-w-3xl rounded overflow-hidden shadow-lg bg-blue-200/50 m-6 center ">
+          <div className="max-w-4xl rounded overflow-hidden shadow-lg bg-white m-6 center ">
             <div className="flex">
               <img
-                className="w-auto h-96"
+                className="object-scale-down w-50 overflow-hidden "
                 src={event.picture}
                 alt={event.name}
               />
@@ -64,8 +64,11 @@ function EventDetails({ user }) {
                 </div>
                 <p className="text-gray-700 text-base">
                   <b>Event Details:</b> {event.bio}
+                  {"\n"}
                 </p>
-                <div>Event dates: </div>
+                <div>
+                  <b>{"\n"}Event dates:</b>{" "}
+                </div>
                 <div>{date_list}</div>
               </div>
             </div>

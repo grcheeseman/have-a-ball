@@ -24,7 +24,7 @@ function KnittersPage() {
       <div className="flex justify-center ">
         <Search handleSearch={handleSearch} />
       </div>
-      <div className="flex justify-center product-page 5">
+      <div className="flex justify-center product-page 5 bg-yellow-50">
         <div className="max-w-4xl p-10">
           <KnitterCollection knitters={knitters} searchTerm={searchTerm} />
         </div>
