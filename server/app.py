@@ -236,26 +236,28 @@ class ProjectsByAll(Resource):
         return response
 
     def post(self):
-        # try:
+        knitter_id = session.get("knitter_id")
+        if knitter_id is None:
+            return {"error": "401 Unauthorized"}, HTTPStatus.UNAUTHORIZED
+
         request_json = request.get_json()
 
         new_project = Project(
+            pattern_name=request_json["pattern_name"],
             picture=request_json["picture"],
             body=request_json["body"],
-            likes=request_json["likes"],
-            pattern_name=request_json["pattern_name,"],
+            likes=0,
+            knitter_id=knitter_id,
         )
 
         db.session.add(new_project)
         db.session.commit()
 
-        response = make_response(jsonify(new_project.to_dict()), 201)
+        response = make_response(
+            new_project.to_dict(rules=("-knitter",)), HTTPStatus.CREATED
+        )
 
         return response
-
-        # except ValueError:
-        #     response = make_response("error occured", 400)
-        #     return response
 
 
 api.add_resource(ProjectsByAll, "/projects")
