@@ -20,7 +20,7 @@ function KnitterDetails() {
     <>
       <div>
         <div className="flex justify-center">
-          <div className="max-w-3xl rounded overflow-hidden shadow-lg bg-blue-200/50 m-6 center ">
+          <div className="max-w-3xl rounded overflow-hidden shadow-lg bg-white m-6 center ">
             <div className="flex">
               <img
                 className="w-auto h-96"

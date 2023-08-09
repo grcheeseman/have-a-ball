@@ -1,15 +1,50 @@
-import ProjectAddForm from "./ProjectAddForm";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Modal from "react-modal";
+import ProjectForm from "./ProjectForm";
 
-function ProjectAdd({ user, onProjectChange, onKnitterUpdate }) {
+function ProjectAdd({ addProject }) {
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
+  function handleAdd(projectAdded) {
+    fetch("/api/projects", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(projectAdded),
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((newProject) => {
+          addProject(newProject);
+          closeModal();
+        });
+      }
+    });
+  }
+
+  function closeModal() {
+    setShowModal(false);
+  }
+
   return (
     <>
-      <section className="pt-[120px] pb-[80px] lg:pt-[170px] lg:pb-[100px] bg-blue relative overflow-hidden">
-        <AddPetForm
-          user={user}
-          onPetChange={onPetChange}
-          onUserUpdate={onUserUpdate}
+      <div
+        className="flex p-8 flex-col items-center text-center spacy-y-1.5 relative text-xs ml-3"
+        onClick={() => setShowModal(true)}
+      >
+        <img src="/images/add.svg" />
+        <p>Add New Project</p>
+      </div>
+      <Modal isOpen={showModal} onRequestClose={closeModal}>
+        <ProjectForm
+          onSubmit={(values) => {
+            handleAdd(values);
+          }}
         />
-      </section>
+        <button onClick={closeModal}>Cancel</button>
+      </Modal>
     </>
   );
 }

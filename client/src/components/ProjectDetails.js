@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ProjectDelete from "./ProjectDelete";
-import ProjectAddForm from "./ProjectAddForm";
 import ProjectEdit from "./ProjectEdit";
-import Dashboard from "./Dashboard";
 
 function ProjectDetails({ user }) {
   const params = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
-  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     fetch(`/api/projects/${params.projectId}`).then((resp) => {
@@ -27,6 +24,12 @@ function ProjectDetails({ user }) {
     );
   }
 
+  // only show edit button if logged in and it's user's project
+  let editButton =
+    user !== null && user.id === project.knitter.id ? (
+      <ProjectEdit project={project} setProject={setProject} />
+    ) : null;
+
   // only show delete button if logged in and it's user's project
   let deleteButton =
     user !== null && user.id === project.knitter.id ? (
@@ -37,14 +40,6 @@ function ProjectDetails({ user }) {
         }}
       />
     ) : null;
-
-  function handleProjectChange() {
-    fetch("/api/projects")
-      .then((response) => response.json())
-      .then((projects) => {
-        setProjects(projects);
-      });
-  }
 
   return (
     <>
@@ -67,6 +62,13 @@ function ProjectDetails({ user }) {
                 <p className="text-gray-700 text-base">
                   <b>Likes:</b> {project.likes}
                 </p>
+                <p className="text-gray-700 text-base">
+                  <b>Creator:</b>{" "}
+                  <Link to={`/knitters/${project.knitter.id}`}>
+                    {project.knitter.username}
+                  </Link>
+                </p>
+                {editButton}
                 {deleteButton}
               </div>
             </div>

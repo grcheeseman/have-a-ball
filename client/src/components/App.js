@@ -10,7 +10,7 @@ import Logout from "./Logout";
 import Navbar from "./Navbar";
 import { UserProvider } from "../context/User";
 import Dashboard from "./Dashboard";
-import ProjectAddForm from "./ProjectAddForm";
+import ProjectAddForm from "./ProjectAddPage";
 import ProjectEdit from "./ProjectEdit";
 import Modal from "react-modal";
 import EventDetails from "./EventDetails";
@@ -20,7 +20,6 @@ Modal.setAppElement("#root");
 
 function App() {
   const [user, setUser] = useState(null);
-  const [person, setPerson] = useState([]);
 
   useEffect(() => {
     fetch("/api/check_session").then((resp) => {
@@ -29,14 +28,6 @@ function App() {
       }
     });
   }, []);
-
-  function handleUserChange() {
-    fetch("/api/knitters")
-      .then((response) => response.json())
-      .then((persons) => {
-        setPerson(person);
-      });
-  }
 
   return (
     <>
@@ -59,32 +50,8 @@ function App() {
             path="/logout"
             element={<Logout user={user} setUser={setUser} />}
           />
-          <Route
-            path="/dashboard"
-            element={
-              <Dashboard user={user} onKnitterChange={handleUserChange} />
-            }
-          />
-          <Route
-            path="/add-project"
-            element={
-              <ProjectAddForm
-                user={user}
-                setUser={setUser}
-                onKnitterUpdate={handleUserChange}
-              />
-            }
-          />
-          <Route
-            path="/edit-project"
-            element={
-              <ProjectEdit
-                user={user}
-                setUser={setUser}
-                onKnitterUpdate={handleUserChange}
-              />
-            }
-          />
+          <Route path="/dashboard" element={<Dashboard user={user} />} />
+          <Route path="/add-project" element={<ProjectAddForm user={user} />} />
           <Route
             path="/events/:eventId"
             element={<EventDetails user={user} />}
