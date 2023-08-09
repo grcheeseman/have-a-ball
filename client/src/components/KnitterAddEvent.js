@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 function KnitterAddEvent({ knitterId, eventDateId, event, setEvent }) {
   function handleAdd() {
     fetch(`/api/knitters/${knitterId}/add_event_date/${eventDateId}`, {

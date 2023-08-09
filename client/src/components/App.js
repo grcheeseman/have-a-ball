@@ -11,7 +11,6 @@ import Navbar from "./Navbar";
 import { UserProvider } from "../context/User";
 import Dashboard from "./Dashboard";
 import ProjectAddForm from "./ProjectAddPage";
-import ProjectEdit from "./ProjectEdit";
 import Modal from "react-modal";
 import EventDetails from "./EventDetails";
 import EventsPage from "./EventsPage";

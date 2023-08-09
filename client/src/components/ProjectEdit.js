@@ -45,7 +45,7 @@ function ProjectEdit({ project, setProject }) {
             handleEdit(values);
           }}
         />
-        <button onClick={closeModal}>Cancel</button>
+        <button className="mt-5 p-2 rounded text-white bg-slate-500" onClick={closeModal}>Cancel</button>
       </Modal>
     </>
   );
