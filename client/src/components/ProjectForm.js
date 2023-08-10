@@ -13,11 +13,14 @@ const ProjectForm = ({ project, onSubmit }) => (
       onSubmit={onSubmit}
     >
       {(props) => (
-        <form onSubmit={props.handleSubmit}>
-          <label className="form-label" htmlFor="pattern_name">
+       <div className='flex justify-center'>
+       <form className="w-1/4 m-5" onSubmit={props.handleSubmit}>
+          
+          <div className='flex flex-col'>
+            <label className="form-label mt-5" htmlFor="pattern_name">
             Pattern Name:
           </label>
-          <input
+          <input className="searchTerm rounded border p-2"
             type="text"
             onChange={props.handleChange}
             onBlur={props.handleBlur}
@@ -25,10 +28,10 @@ const ProjectForm = ({ project, onSubmit }) => (
             id="pattern_name"
             name="pattern_name"
           />
-          <label className="form-label" htmlFor="body">
+          <label className="form-label mt-5" htmlFor="body">
             Project Description:
           </label>
-          <input
+          <input className="searchTerm rounded border p-2"
             type="text"
             onChange={props.handleChange}
             onBlur={props.handleBlur}
@@ -36,10 +39,10 @@ const ProjectForm = ({ project, onSubmit }) => (
             id="body"
             name="body"
           />
-          <label className="form-label" htmlFor="picture">
+          <label className="form-label mt-5" htmlFor="picture">
             Picture URL:
           </label>
-          <input
+          <input className="searchTerm rounded border p-2"
             type="text"
             onChange={props.handleChange}
             onBlur={props.handleBlur}
@@ -47,9 +50,12 @@ const ProjectForm = ({ project, onSubmit }) => (
             id="picture"
             name="picture"
           />
-          {props.errors.name && <div id="feedback">{props.errors.name}</div>}
-          <button type="submit">Save Changes</button>
+         
+         {props.errors.name && <div id="feedback">{props.errors.name}</div>}
+         </div>
+          <button className="mt-5 p-2 rounded text-white bg-slate-500" type="submit">Save Changes</button>
         </form>
+        </div>
       )}
     </Formik>
   </div>

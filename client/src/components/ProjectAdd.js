@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import ProjectForm from "./ProjectForm";
 
 function ProjectAdd({ addProject }) {
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
+
 
   function handleAdd(projectAdded) {
     fetch("/api/projects", {

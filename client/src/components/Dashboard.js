@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
 import ProjectDelete from "./ProjectDelete";
 import ProjectEdit from "./ProjectEdit";
 import ProjectAdd from "./ProjectAdd";
@@ -70,7 +69,7 @@ function Dashboard({ user }) {
         <div className="container mx-auto px-10">
           <div>
             <h1 className="text-[#373737] font-[600] text-[30px] lg:text-[35px] xl:text-[40px] leading-[1] mb-[25px] md:mb-[32px] px-3">
-              Hi, {user.username} 👋
+              Hi, {user.username} 🌊
             </h1>
           </div>
         </div>
