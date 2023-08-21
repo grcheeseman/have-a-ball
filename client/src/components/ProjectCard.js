@@ -1,5 +1,4 @@
 import React from "react";
-import KnitterCard from "./KnitterCard";
 
 function ProjectCard({ likes, picture, knitter, body, id, pattern_name }) {
   return (
@@ -12,10 +11,12 @@ function ProjectCard({ likes, picture, knitter, body, id, pattern_name }) {
             </div>
           </div>
           <div className="p-4">
-            <b><p className="text-gray-700 text-base">
-             {pattern_name}
-            </p></b>
-            <div className=" text-m mb-2">Creator: <b>{knitter}</b></div>
+            <b>
+              <p className="text-gray-700 text-base">{pattern_name}</p>
+            </b>
+            <div className=" text-m mb-2">
+              Creator: <b>{knitter}</b>
+            </div>
             <div className=" text-m mb-2">Likes: {likes}</div>
 
             {/* <p className="text-gray-700 text-base">{body}</p> */}

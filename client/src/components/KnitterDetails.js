@@ -12,10 +12,6 @@ function KnitterDetails() {
       .then((knitter) => setKnitter(knitter));
   }, [params.knitterId]);
 
-  const addKnitter = (knitter) => {
-    setKnitter((knitters) => [...knitters, knitter]);
-  };
-
   return (
     <>
       <div>

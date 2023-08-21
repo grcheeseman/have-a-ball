@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import ProjectForm from "./ProjectForm";
 
 function ProjectEdit({ project, setProject }) {
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
 
   function handleEdit(projectUpdates) {
     fetch(`/api/projects/${project.id}`, {
@@ -45,7 +43,12 @@ function ProjectEdit({ project, setProject }) {
             handleEdit(values);
           }}
         />
-        <button className="mt-5 p-2 rounded text-white bg-slate-500" onClick={closeModal}>Cancel</button>
+        <button
+          className="mt-5 p-2 rounded text-white bg-slate-500"
+          onClick={closeModal}
+        >
+          Cancel
+        </button>
       </Modal>
     </>
   );

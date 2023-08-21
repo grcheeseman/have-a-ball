@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 
 function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/have-a-ball">
       <App />
     </BrowserRouter>
   );

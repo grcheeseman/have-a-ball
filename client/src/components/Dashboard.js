@@ -31,7 +31,7 @@ const RenderProjects = ({ projects, setProjects }) => {
       <ProjectDelete
         projectId={project.id}
         afterDelete={() => {
-          setProjects(projects.filter((p) => p.id != project.id));
+          setProjects(projects.filter((p) => p.id !== project.id));
         }}
       />
       <ProjectEdit project={project} setProject={setProject} />
@@ -89,7 +89,7 @@ function Dashboard({ user }) {
                       </div>
                       <div className="col-span-4">
                         <p>
-                          <img src={user.picture} />{" "}
+                          <img src={user.picture} alt="" />{" "}
                         </p>
                         <p>
                           <b>Bio:</b> {user.bio}
