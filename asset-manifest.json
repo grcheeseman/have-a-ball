@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/have-a-ball/static/css/main.ef2e0520.css",
+    "main.js": "/have-a-ball/static/js/main.bfe6de66.js",
+    "index.html": "/have-a-ball/index.html",
+    "main.ef2e0520.css.map": "/have-a-ball/static/css/main.ef2e0520.css.map",
+    "main.bfe6de66.js.map": "/have-a-ball/static/js/main.bfe6de66.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ef2e0520.css",
+    "static/js/main.bfe6de66.js"
+  ]
+}
