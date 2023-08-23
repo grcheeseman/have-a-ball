@@ -7,7 +7,9 @@ function EventDetails({ user }) {
   const [event, setEvent] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/events/${params.eventId}`).then((resp) => {
+    fetch(
+      `https://grcheeseman.pythonanywhere.com/have-a-ball/events/${params.eventId}`
+    ).then((resp) => {
       if (resp.ok) {
         resp.json().then((event) => setEvent(event));
       }

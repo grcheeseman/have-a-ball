@@ -1,12 +1,15 @@
 function KnitterAddEvent({ knitterId, eventDateId, event, setEvent }) {
   function handleAdd() {
-    fetch(`/api/knitters/${knitterId}/add_event_date/${eventDateId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({}),
-    }).then((resp) => {
+    fetch(
+      `https://grcheeseman.pythonanywhere.com/have-a-ball/knitters/${knitterId}/add_event_date/${eventDateId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      }
+    ).then((resp) => {
       if (resp.ok) {
         // go through event dates and set attending to true for this eventDateId
         const newEventDates = event.event_dates.map((eventDate) => {

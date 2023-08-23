@@ -8,7 +8,7 @@ function ProjectsPage() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch("/api/projects")
+    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/projects")
       .then((resp) => resp.json())
       .then((projects) => setProjects(projects));
   }, []);

@@ -44,7 +44,9 @@ function Dashboard({ user }) {
 
   useEffect(() => {
     if (user !== null) {
-      fetch(`/api/projects?knitter_id=${user.id}`)
+      fetch(
+        `https://grcheeseman.pythonanywhere.com/have-a-ball/projects?knitter_id=${user.id}`
+      )
         .then((resp) => resp.json())
         .then((projects) => setProjects(projects));
     }

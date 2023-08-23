@@ -9,7 +9,9 @@ function ProjectDetails({ user }) {
   const [project, setProject] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/projects/${params.projectId}`).then((resp) => {
+    fetch(
+      `https://grcheeseman.pythonanywhere.com/have-a-ball/projects/${params.projectId}`
+    ).then((resp) => {
       if (resp.ok) {
         resp.json().then((project) => setProject(project));
       }

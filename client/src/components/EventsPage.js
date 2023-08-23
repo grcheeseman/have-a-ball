@@ -8,7 +8,7 @@ function EventsPage() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    fetch("/api/events")
+    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/events")
       .then((resp) => resp.json())
       .then((events) => setEvents(events));
   }, []);

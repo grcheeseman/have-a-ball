@@ -6,7 +6,7 @@ function Logout({ user, setUser }) {
   // const { user, setUser } = useContext(UserContext)
 
   function handleLogout() {
-    fetch("/api/logout", {
+    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/logout", {
       method: "DELETE",
     }).then(setUser(null));
   }

@@ -6,14 +6,17 @@ function ProjectEdit({ project, setProject }) {
   const [showModal, setShowModal] = useState(false);
 
   function handleEdit(projectUpdates) {
-    fetch(`/api/projects/${project.id}`, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(projectUpdates),
-    }).then((response) => {
+    fetch(
+      `https://grcheeseman.pythonanywhere.com/have-a-ball/projects/${project.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectUpdates),
+      }
+    ).then((response) => {
       if (response.ok) {
         response.json().then((updatedProject) => {
           setProject(updatedProject);

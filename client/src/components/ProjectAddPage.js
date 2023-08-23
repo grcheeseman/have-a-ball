@@ -5,7 +5,7 @@ function ProjectAddPage({ user }) {
   const navigate = useNavigate();
 
   function handleAdd(projectAdded) {
-    fetch("/api/projects", {
+    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/projects", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

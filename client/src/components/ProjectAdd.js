@@ -5,9 +5,8 @@ import ProjectForm from "./ProjectForm";
 function ProjectAdd({ addProject }) {
   const [showModal, setShowModal] = useState(false);
 
-
   function handleAdd(projectAdded) {
-    fetch("/api/projects", {
+    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/projects", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -7,7 +7,9 @@ function KnitterDetails() {
   const [knitter, setKnitter] = useState({});
 
   useEffect(() => {
-    fetch(`/api/knitters/${params.knitterId}`)
+    fetch(
+      `https://grcheeseman.pythonanywhere.com/have-a-ball/knitters/${params.knitterId}`
+    )
       .then((resp) => resp.json())
       .then((knitter) => setKnitter(knitter));
   }, [params.knitterId]);

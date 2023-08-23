@@ -5,9 +5,12 @@ function ProjectDelete({ projectId, afterDelete }) {
   const [showModal, setShowModal] = useState(false);
 
   function handleDelete() {
-    fetch(`/api/projects/${projectId}`, {
-      method: "DELETE",
-    });
+    fetch(
+      `https://grcheeseman.pythonanywhere.com/have-a-ball/projects/${projectId}`,
+      {
+        method: "DELETE",
+      }
+    );
     closeModal();
     afterDelete();
   }
