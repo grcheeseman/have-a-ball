@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function KnitterCard({ username, picture, id }) {
   return (
-    <a href={`/knitters/${id}`}>
+    <Link to={`/knitters/${id}`}>
       <div className="w-40 rounded shadow-xl auto-col-auto bg-white p-8 m-3">
         <div className="">
           <div className="">
@@ -15,7 +16,7 @@ function KnitterCard({ username, picture, id }) {
           </b>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
