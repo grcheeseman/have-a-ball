@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>GitHub Pages React Router Redirect</title>
+    <script type="text/javascript">
+      const loc = window.location;
+      loc.replace(
+        loc.protocol +
+          "//" +
+          loc.hostname +
+          // get just the github pages base path
+          loc.pathname.split("/").slice(0, 2).join("/") +
+          // add the rest of the path on as a query arg
+          "/?/" +
+          l.pathname.slice(1).split("/").slice(1).join("/")
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
