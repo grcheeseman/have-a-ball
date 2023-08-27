@@ -1,18 +1,22 @@
 # have-a-ball
 
-# Set Up:
-    
+## Live Demo
+
+[Live Demo](https://grcheeseman.github.io/have-a-ball/)
+
+## Set Up:
+
     Run in terminal:
-        
+
         cd server
         export FLASK_APP=app.py
         export FLASK_RUN_PORT=5555
-        
+
         flask db init
         flask db revision --autogenerate -m "Create table <table name>"
         flask db upgrade
         python seed.py
-        
+
         python app.py
 
     Run front-end React:
@@ -22,7 +26,7 @@
         - npm start
 
     To pull from main after you've made changes on your branch:
-        
+
         to make sure your branch is clean:
         git status
 
@@ -43,15 +47,13 @@
 
         git check out "your branch name"
         git rebase main
-        
+
         make sure your branch is clean again(it should be again):
-        git status      
+        git status
 
         add your stashed changes to you updated rebased main(you will likely have conflicts):
-        git stash pop 
+        git stash pop
 
         accept nessecary conflicts on files that need it then:
         git add .
         git commit -m "message"
-
-
