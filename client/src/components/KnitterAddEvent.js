@@ -29,7 +29,7 @@ function KnitterAddEvent({ knitterId, eventDateId, event, setEvent }) {
         className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3"
         onClick={handleAdd}
       >
-        <img src="/images/add.svg" alt="" />
+        <img src="/have-a-ball/images/add.svg" alt="" />
       </div>
     </>
   );

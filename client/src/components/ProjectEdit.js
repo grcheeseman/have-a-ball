@@ -37,7 +37,7 @@ function ProjectEdit({ project, setProject }) {
         className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3"
         onClick={() => setShowModal(true)}
       >
-        <img src="/images/edit.svg" alt="" />
+        <img src="/have-a-ball/images/edit.svg" alt="" />
         <p>Edit</p>
       </div>
       <Modal isOpen={showModal} onRequestClose={closeModal}>
