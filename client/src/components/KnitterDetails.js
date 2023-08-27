@@ -8,7 +8,8 @@ function KnitterDetails() {
 
   useEffect(() => {
     fetch(
-      `https://grcheeseman.pythonanywhere.com/have-a-ball/knitters/${params.knitterId}`
+      `https://grcheeseman.pythonanywhere.com/have-a-ball/knitters/${params.knitterId}`,
+      { credentials: "include" }
     )
       .then((resp) => resp.json())
       .then((knitter) => setKnitter(knitter));

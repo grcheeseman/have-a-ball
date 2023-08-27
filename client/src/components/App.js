@@ -21,9 +21,9 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch(
-      "https://grcheeseman.pythonanywhere.com/have-a-ball/check_session"
-    ).then((resp) => {
+    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/check_session", {
+      credentials: "include",
+    }).then((resp) => {
       if (resp.ok) {
         resp.json().then((knitter) => setUser(knitter));
       }

@@ -8,7 +8,8 @@ function EventDetails({ user }) {
 
   useEffect(() => {
     fetch(
-      `https://grcheeseman.pythonanywhere.com/have-a-ball/events/${params.eventId}`
+      `https://grcheeseman.pythonanywhere.com/have-a-ball/events/${params.eventId}`,
+      { credentials: "include" }
     ).then((resp) => {
       if (resp.ok) {
         resp.json().then((event) => setEvent(event));

@@ -9,6 +9,7 @@ function ProjectDelete({ projectId, afterDelete }) {
       `https://grcheeseman.pythonanywhere.com/have-a-ball/projects/${projectId}`,
       {
         method: "DELETE",
+        credentials: "include",
       }
     );
     closeModal();

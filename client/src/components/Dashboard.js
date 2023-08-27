@@ -45,7 +45,8 @@ function Dashboard({ user }) {
   useEffect(() => {
     if (user !== null) {
       fetch(
-        `https://grcheeseman.pythonanywhere.com/have-a-ball/projects?knitter_id=${user.id}`
+        `https://grcheeseman.pythonanywhere.com/have-a-ball/projects?knitter_id=${user.id}`,
+        { credentials: "include" }
       )
         .then((resp) => resp.json())
         .then((projects) => setProjects(projects));

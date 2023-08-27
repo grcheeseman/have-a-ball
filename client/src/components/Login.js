@@ -15,6 +15,7 @@ function Login({ user, setUser }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
+      credentials: "include",
     }).then((resp) => {
       if (resp.ok) {
         resp.json().then((knitter) => {

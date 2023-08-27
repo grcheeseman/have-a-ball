@@ -8,6 +8,7 @@ function Logout({ user, setUser }) {
   function handleLogout() {
     fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/logout", {
       method: "DELETE",
+      credentials: "include",
     }).then(setUser(null));
   }
 

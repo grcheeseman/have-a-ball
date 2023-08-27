@@ -12,6 +12,7 @@ function ProjectAdd({ addProject }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(projectAdded),
+      credentials: "include",
     }).then((response) => {
       if (response.ok) {
         response.json().then((newProject) => {
@@ -32,7 +33,7 @@ function ProjectAdd({ addProject }) {
         className="flex p-8 flex-col items-center text-center spacy-y-1.5 relative text-xs ml-3"
         onClick={() => setShowModal(true)}
       >
-        <img src="/images/add.svg" alt=""/>
+        <img src="/images/add.svg" alt="" />
         <p>Add New Project</p>
       </div>
       <Modal isOpen={showModal} onRequestClose={closeModal}>

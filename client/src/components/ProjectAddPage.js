@@ -11,6 +11,7 @@ function ProjectAddPage({ user }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(projectAdded),
+      credentials: "include",
     }).then((response) => {
       if (response.ok) {
         response.json().then((newProject) => {

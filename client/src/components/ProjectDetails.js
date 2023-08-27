@@ -10,7 +10,8 @@ function ProjectDetails({ user }) {
 
   useEffect(() => {
     fetch(
-      `https://grcheeseman.pythonanywhere.com/have-a-ball/projects/${params.projectId}`
+      `https://grcheeseman.pythonanywhere.com/have-a-ball/projects/${params.projectId}`,
+      { credentials: "include" }
     ).then((resp) => {
       if (resp.ok) {
         resp.json().then((project) => setProject(project));

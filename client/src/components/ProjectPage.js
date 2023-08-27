@@ -8,7 +8,9 @@ function ProjectsPage() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/projects")
+    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/projects", {
+      credentials: "include",
+    })
       .then((resp) => resp.json())
       .then((projects) => setProjects(projects));
   }, []);

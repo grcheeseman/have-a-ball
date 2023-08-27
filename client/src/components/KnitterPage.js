@@ -8,7 +8,9 @@ function KnittersPage() {
   const [knitters, setKnitters] = useState([]);
 
   useEffect(() => {
-    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/knitters")
+    fetch("https://grcheeseman.pythonanywhere.com/have-a-ball/knitters", {
+      credentials: "include",
+    })
       .then((resp) => resp.json())
       .then((knitters) => setKnitters(knitters));
   }, []);
