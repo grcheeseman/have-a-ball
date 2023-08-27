@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function ProjectCard({ likes, picture, knitter, body, id, pattern_name }) {
   return (
     <div>
-      <a href={`/projects/${id}`}>
+      <Link to={`/projects/${id}`}>
         <div className="w-80 rounded overflow-hidden shadow-xl auto-cols-auto bg-white m-6 ">
           <div className="container h-52 flex items-center overflow-hidden">
             <div className="">
@@ -22,7 +23,7 @@ function ProjectCard({ likes, picture, knitter, body, id, pattern_name }) {
             {/* <p className="text-gray-700 text-base">{body}</p> */}
           </div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 }

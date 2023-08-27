@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function EventCard({ name, picture, bio, id }) {
   return (
     <div>
-      <a href={`/events/${id}`}>
+      <Link to={`/events/${id}`}>
         <div className="w-80 h-110 overflow-hidden rounded shadow-lg auto-cols-auto bg-white m-6 ">
           <div className="container h-52 flex items-center overflow-hidden">
             <div className="">
@@ -20,7 +21,7 @@ function EventCard({ name, picture, bio, id }) {
             </p>
           </div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 }

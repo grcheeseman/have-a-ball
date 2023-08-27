@@ -22,7 +22,7 @@ function ProjectDelete({ projectId, afterDelete }) {
         className="flex flex-col items-center spacy-y-1.5 relative text-xs ml-3"
         onClick={() => setShowModal(true)}
       >
-        <img src="/images/delete.svg" />
+        <img src="/images/delete.svg" alt="" />
         <p>Delete</p>
       </div>
       <Modal isOpen={showModal} onRequestClose={closeModal}>
